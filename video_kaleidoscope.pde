@@ -1,7 +1,5 @@
-//Kaleidoscope
-//samjbrenner@gmail.com
+//Video Kaleidoscope
 //sjbrenner.com
-//Create a folder called "data" and place an image renamed to "test.jpeg"
 
 import processing.video.*;
 
