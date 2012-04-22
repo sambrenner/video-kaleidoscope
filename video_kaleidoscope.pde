@@ -23,26 +23,18 @@ void setup() {
   size(1000,1000);
   background(0);
   
+  //Video source dimensions
   sourceWidth = 640;
   sourceHeight = 480;
   
+  //TODO: Make this programatic
+  //A rectangle able to have an equilateral triangle inscribed in it (where h = sqrt(3)/2 * w)
   blockHeight = 73;
   blockWidth = 84;
   totalBlockPixels = blockWidth * blockHeight;
   
-  upImg = createImage(blockWidth, blockHeight, RGB);
-  downImg = createImage(blockWidth, blockHeight, RGB);
-  
-  upImg.loadPixels();
-  downImg.loadPixels();
-  
-  upImgMask = createGraphics(blockWidth, blockHeight, JAVA2D);
-  downImgMask = createGraphics(blockWidth, blockHeight, JAVA2D);
-  
-  cellSpace = floor(blockWidth + (blockWidth * cos(PI/3)));
-  
-  cols = ceil(width / cellSpace) + 2;
-  rows = ceil(height / (blockHeight * 2)) + 2;
+  initCellImages();
+  initCellSpacing();
   
   video = new Capture(this, sourceWidth, sourceHeight, 30);
 }
@@ -67,6 +59,24 @@ void draw() {
   }
 }
 
+void initCellImages() {
+  upImg = createImage(blockWidth, blockHeight, RGB);
+  downImg = createImage(blockWidth, blockHeight, RGB);
+  
+  upImg.loadPixels();
+  downImg.loadPixels();
+  
+  upImgMask = createGraphics(blockWidth, blockHeight, JAVA2D);
+  downImgMask = createGraphics(blockWidth, blockHeight, JAVA2D);
+}
+
+void initCellSpacing() {
+  cellSpace = floor(blockWidth + (blockWidth * cos(PI/3)));
+  
+  cols = ceil(width / cellSpace) + 2;
+  rows = ceil(height / (blockHeight * 2)) + 2;
+}
+
 void generateSourceImages() {
   video.read();
   video.loadPixels();
@@ -83,8 +93,6 @@ void generateSourceImages() {
       color sourcePixel = video.pixels[targetY * sourceWidth + targetX];
       
       upImg.pixels[count] = sourcePixel;
-      
-      //this code is wrong, not making a mirrored image
       downImg.pixels[((blockHeight - j - 1) * blockWidth) + i] = sourcePixel;
       
       upImg.updatePixels();
