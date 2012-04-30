@@ -18,6 +18,7 @@ int totalBlockPixels;
 int rows;
 int cols;
 float TWO_PI_OVER_3 = TWO_PI/3;
+boolean inverted = false;
 
 void setup() {
   size(1000,1000);
@@ -92,6 +93,8 @@ void generateSourceImages() {
       
       color sourcePixel = video.pixels[targetY * sourceWidth + targetX];
       
+      if(inverted) sourcePixel = invertColor(sourcePixel);
+      
       upImg.pixels[count] = sourcePixel;
       downImg.pixels[((blockHeight - j - 1) * blockWidth) + i] = sourcePixel;
       
@@ -101,6 +104,10 @@ void generateSourceImages() {
       count++;
     }
   }
+}
+
+color invertColor(color c) {
+  return color(255-red(c), 255-green(c), 255-blue(c));
 }
 
 void updateMasks() { 
@@ -158,7 +165,12 @@ void initMasks() {
     downImgMask.endDraw();
 }
 
-void mousePressed()
-{
+void mousePressed() {
   save("kaleido_"+ year() + "-" + month() + "-" + day() + "-" + hour() + minute() + second() +".jpg");
+}
+
+void keyPressed() {
+  if(key == 'i') {
+    inverted = !inverted;
+  }
 }
