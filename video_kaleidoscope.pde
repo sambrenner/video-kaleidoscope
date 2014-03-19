@@ -1,5 +1,5 @@
 //Video Kaleidoscope
-//sjbrenner.com
+//samjbrenner.com
 
 import processing.video.*;
 
